@@ -14,6 +14,7 @@ AIKids/
 ├── 404.html            Friendly "page not found" page (GitHub Pages uses it automatically)
 ├── style.css           All styling. Colours and fonts are at the top
 ├── script.js           Mobile menu, fade-in on scroll, footer year
+├── CNAME               The custom domain (www.ai-kids.uk). Don't delete it
 ├── .nojekyll           Tells GitHub Pages to serve the files exactly as they are
 ├── images/
 │   ├── aikids-logo.png Header logo
@@ -80,7 +81,7 @@ git init
 git add .
 git commit -m "First version of AIKids site"
 git branch -M main
-git remote add origin https://github.com/YOUR-USERNAME/aikids-website.git
+git remote add origin https://github.com/AIKids-Public/AIKids.git
 git push -u origin main
 ```
 
@@ -90,7 +91,7 @@ git push -u origin main
 3. Under **Branch**, choose **main** and folder **/ (root)**, then click **Save**.
 
 ### Step 4: Publish publicly
-- After 1–2 minutes, the Pages settings screen shows **"Your site is live at …"**, e.g. `https://your-username.github.io/aikids-website/`.
+- After 1–2 minutes, the Pages settings screen shows **"Your site is live at …"**, e.g. `https://aikids-public.github.io/AIKids/`.
 - Progress is visible under the repository's **Actions** tab (a green tick means it's published).
 - The site is public as soon as it's live. Anyone with the link can view it.
 
@@ -109,16 +110,16 @@ git push -u origin main
 
 ## 4. Connecting your 123 Reg domain
 
-The steps below use `aikids.example` as a placeholder. Swap in your real domain (e.g. `aikids.co.uk`).
-We'll set it up so that **both** `aikids.example` and `www.aikids.example` work, with `www` as the main address.
+The steps below are filled in for the AIKids domain, `ai-kids.uk`.
+We'll set it up so that **both** `ai-kids.uk` and `www.ai-kids.uk` work, with `www` as the main address.
 
 ### Step 1: Tell GitHub about the domain
 1. Create a file called `CNAME` (all capitals, no file extension) in the top level of the repo. Its only content is your domain, on a single line, e.g.
    ```
-   www.aikids.example
+   www.ai-kids.uk
    ```
-   No `https://`, no trailing slash. Commit/upload it. (Don't add this file until you have the real domain, or the github.io address will redirect to a domain that doesn't work yet.)
-2. In GitHub: **Settings → Pages → Custom domain**, enter `www.aikids.example` and click **Save**.
+   No `https://`, no trailing slash. Commit/upload it. (This file is already in the repo.)
+2. In GitHub: **Settings → Pages → Custom domain**, enter `www.ai-kids.uk` and click **Save**.
    (Doing this also creates or updates the `CNAME` file for you. Either way is fine, but the two must match.)
 
 > **Recommended: verify your domain** to stop anyone else ever claiming it on GitHub:
@@ -154,9 +155,9 @@ We'll set it up so that **both** `aikids.example` and `www.aikids.example` work,
 
    | Type | Hostname | Destination / Value |
    |---|---|---|
-   | CNAME | `www` | `your-username.github.io` |
+   | CNAME | `www` | `aikids-public.github.io` |
 
-   Use **your GitHub username** followed by `.github.io`. Do **not** include the repository name. Some 123 Reg screens want a trailing dot (`your-username.github.io.`). If it asks, add it.
+   This is the GitHub account name followed by `.github.io`. Do **not** include the repository name. Some 123 Reg screens want a trailing dot (`aikids-public.github.io.`). If it asks, add it.
 
 7. Save the changes.
 
@@ -166,8 +167,8 @@ We'll set it up so that **both** `aikids.example` and `www.aikids.example` work,
 ### Step 3: Wait for DNS to update
 DNS changes usually take **15 minutes to a few hours**, and can take up to **48 hours**. You can check progress at [dnschecker.org](https://dnschecker.org), or in Terminal:
 ```bash
-dig aikids.example +short        # should list the four 185.199.x.153 addresses
-dig www.aikids.example +short    # should show your-username.github.io
+dig ai-kids.uk +short        # should list the four 185.199.x.153 addresses
+dig www.ai-kids.uk +short    # should show aikids-public.github.io
 ```
 Back on **Settings → Pages**, GitHub shows **"DNS check successful"** once it can see the records.
 
