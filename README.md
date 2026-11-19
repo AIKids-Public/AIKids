@@ -11,7 +11,6 @@ AIKids/
 ├── index.html          Home page
 ├── about.html          About page (mission, goals, meet Spark)
 ├── activities.html     All activities (cards grid + "coming soon" placeholders)
-├── snowy-quest.html    Placeholder page for Spark's Snowy Quest
 ├── 404.html            Friendly "page not found" page (GitHub Pages uses it automatically)
 ├── style.css           All styling. Colours and fonts are at the top
 ├── script.js           Mobile menu, fade-in on scroll, footer year
@@ -49,7 +48,7 @@ Every editable section is marked in the HTML with a comment like `<!-- EDITABLE:
 2. Copy an entire `<article class="card"> … </article>` block (e.g. the Snowy Quest one).
 3. Paste it after the last real activity, then change the title, description, tags and the button's `href`.
 4. Remove a "Coming soon" placeholder card if you don't need it any more.
-5. To give the activity its own page, copy `snowy-quest.html`, rename it (e.g. `robot-race.html`) and edit its content.
+5. Activities can live anywhere. Spark's Snowy Quest is its own GitHub repository (`spark-snowy-code-quest`), and its **Start Activity** buttons link straight to https://aikids-public.github.io/spark-snowy-code-quest/. For a new activity, put its web address in the button's `href`.
 
 The grid automatically re-arranges for desktop, tablet and mobile.
 
