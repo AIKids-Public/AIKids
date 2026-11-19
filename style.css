@@ -1,0 +1,852 @@
+/* ==========================================================================
+   AIKids — Main Stylesheet
+   --------------------------------------------------------------------------
+   HOW THIS FILE IS ORGANISED
+   1.  Design tokens (colours, fonts, spacing)  <-- EDIT HERE to re-theme
+   2.  Base / reset
+   3.  Layout helpers
+   4.  Header & navigation
+   5.  Buttons
+   6.  Spark mascot & speech bubbles
+   7.  Hero
+   8.  Content sections (intro, quote, about)
+   9.  Activity cards
+   10. Footer
+   11. Animations (float + fade-in on scroll)
+   12. Responsive tweaks (tablet / mobile)
+   ========================================================================== */
+
+
+/* 1. DESIGN TOKENS -----------------------------------------------------------
+   Change these values to update colours/fonts across the WHOLE site.
+   Colours are taken from the AIKids logo.
+   ------------------------------------------------------------------------- */
+:root {
+  /* Brand colours */
+  --navy: #0a3a86;        /* "AI" in the logo — headings & main text accents */
+  --blue: #0b63d6;        /* Book blue — buttons & links (passes AA on white) */
+  --blue-dark: #084aa3;   /* Button hover */
+  --sky: #1aa7ff;         /* Spark's head / "Kids" — decoration only */
+  --sky-soft: #e8f5ff;    /* Very light blue panels */
+  --sky-softer: #f5fbff;  /* Alternate section background */
+
+  /* Neutrals */
+  --white: #ffffff;
+  --text: #1f2a44;        /* Body text (high contrast) */
+  --text-muted: #4a5878;  /* Secondary text (still AA on white) */
+  --border: #dbe7f5;
+
+  /* Fonts (loaded from Google Fonts in each HTML <head>) */
+  --font-heading: "Poppins", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-body: "Nunito", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* Shape & depth */
+  --radius-sm: 12px;
+  --radius: 20px;
+  --radius-lg: 32px;
+  --radius-pill: 999px;
+  --shadow-sm: 0 2px 8px rgba(10, 58, 134, 0.06);
+  --shadow: 0 10px 30px rgba(10, 58, 134, 0.10);
+  --shadow-lg: 0 18px 44px rgba(10, 58, 134, 0.16);
+
+  /* Layout */
+  --max-width: 1140px;
+  --section-space: clamp(4rem, 8vw, 6.5rem);
+}
+
+
+/* 2. BASE / RESET ---------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 1.125rem;          /* 18px — comfortable for young readers */
+  line-height: 1.7;
+  color: var(--text);
+  background: var(--white);
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-heading);
+  color: var(--navy);
+  line-height: 1.2;
+  margin: 0 0 0.75rem;
+  text-wrap: balance;   /* avoids a single word left alone on the last line */
+}
+
+h1 { font-size: clamp(2.1rem, 4.5vw, 3.4rem); font-weight: 700; }
+h2 { font-size: clamp(1.7rem, 3.2vw, 2.4rem); font-weight: 700; }
+h3 { font-size: 1.35rem; font-weight: 600; }
+
+p { margin: 0 0 1.1rem; }
+
+a { color: var(--blue); }
+a:hover { color: var(--blue-dark); }
+
+/* Clear keyboard focus ring for accessibility */
+:focus-visible {
+  outline: 3px solid var(--sky);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* "Skip to content" link — visible only when focused with keyboard */
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -4rem;
+  background: var(--navy);
+  color: var(--white);
+  padding: 0.6rem 1rem;
+  border-radius: var(--radius-sm);
+  z-index: 200;
+  text-decoration: none;
+}
+.skip-link:focus { top: 1rem; color: var(--white); }
+
+
+/* 3. LAYOUT HELPERS -------------------------------------------------------- */
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.section {
+  padding: var(--section-space) 0;
+}
+
+.section--tinted {
+  background: var(--sky-softer);
+}
+
+.section-heading {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 3rem;
+}
+
+.section-heading p {
+  color: var(--text-muted);
+}
+
+/* Small coloured label above headings, e.g. "FEATURED" */
+.eyebrow {
+  display: inline-block;
+  font-family: var(--font-heading);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--blue);
+  background: var(--sky-soft);
+  padding: 0.35rem 0.9rem;
+  border-radius: var(--radius-pill);
+  margin-bottom: 1rem;
+}
+
+/* Readable text column */
+.prose {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+
+/* 4. HEADER & NAVIGATION --------------------------------------------------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 76px;
+}
+
+.nav__logo img {
+  height: 52px;
+  width: auto;
+}
+
+.nav__links {
+  display: flex;
+  gap: 0.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav__links a {
+  display: block;
+  font-family: var(--font-heading);
+  font-weight: 500;
+  font-size: 1rem;
+  color: var(--navy);
+  text-decoration: none;
+  padding: 0.55rem 1.1rem;
+  border-radius: var(--radius-pill);
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.nav__links a:hover {
+  background: var(--sky-soft);
+}
+
+/* The current page is highlighted (set by aria-current="page" in the HTML) */
+.nav__links a[aria-current="page"] {
+  background: var(--blue);
+  color: var(--white);
+}
+
+/* Mobile menu button — hidden on desktop */
+.nav__toggle {
+  display: none;
+  background: var(--sky-soft);
+  border: 0;
+  border-radius: var(--radius-sm);
+  width: 46px;
+  height: 46px;
+  cursor: pointer;
+  padding: 0;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav__toggle-bar,
+.nav__toggle-bar::before,
+.nav__toggle-bar::after {
+  display: block;
+  width: 22px;
+  height: 2.5px;
+  background: var(--navy);
+  border-radius: 2px;
+  position: relative;
+  transition: transform 0.25s ease, background 0.25s ease;
+}
+.nav__toggle-bar::before,
+.nav__toggle-bar::after {
+  content: "";
+  position: absolute;
+  left: 0;
+}
+.nav__toggle-bar::before { top: -7px; }
+.nav__toggle-bar::after  { top: 7px; }
+
+/* Turn the "burger" into an X when the menu is open */
+.nav__toggle[aria-expanded="true"] .nav__toggle-bar { background: transparent; }
+.nav__toggle[aria-expanded="true"] .nav__toggle-bar::before { transform: translateY(7px) rotate(45deg); }
+.nav__toggle[aria-expanded="true"] .nav__toggle-bar::after  { transform: translateY(-7px) rotate(-45deg); }
+
+
+/* 5. BUTTONS --------------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 1.05rem;
+  text-decoration: none;
+  padding: 0.9rem 1.8rem;
+  border-radius: var(--radius-pill);
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.btn--primary {
+  background: var(--blue);
+  color: var(--white);
+  box-shadow: 0 8px 20px rgba(11, 99, 214, 0.28);
+}
+.btn--primary:hover {
+  background: var(--blue-dark);
+  color: var(--white);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 26px rgba(11, 99, 214, 0.34);
+}
+
+.btn--secondary {
+  background: var(--white);
+  color: var(--blue);
+  border-color: var(--border);
+}
+.btn--secondary:hover {
+  border-color: var(--blue);
+  color: var(--blue-dark);
+  transform: translateY(-2px);
+}
+
+.btn__arrow {
+  transition: transform 0.2s ease;
+}
+.btn:hover .btn__arrow {
+  transform: translateX(3px);
+}
+
+
+/* 6. SPARK MASCOT & SPEECH BUBBLES ----------------------------------------- */
+/* Wrapper that holds Spark + their speech bubble side by side */
+.spark-says {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.spark-says--center {
+  justify-content: center;
+}
+
+.spark-says__img {
+  width: 72px;
+  flex-shrink: 0;
+}
+
+.speech-bubble {
+  position: relative;
+  background: var(--white);
+  color: var(--navy);
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 1.05rem;
+  line-height: 1.4;
+  padding: 0.85rem 1.25rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  border: 2px solid var(--sky-soft);
+  max-width: 340px;
+  margin: 0;
+}
+
+/* Stop page-hero paragraph spacing from pushing the bubble away from Spark */
+.page-hero .speech-bubble {
+  margin: 0;
+  color: var(--navy);
+  font-size: 1.05rem;
+}
+
+/* Little triangle "tail" pointing left towards Spark */
+.speech-bubble::before {
+  content: "";
+  position: absolute;
+  left: -10px;
+  top: 50%;
+  width: 18px;
+  height: 18px;
+  background: var(--white);
+  border-left: 2px solid var(--sky-soft);
+  border-bottom: 2px solid var(--sky-soft);
+  transform: translateY(-50%) rotate(45deg);
+}
+
+/* Variant: tail points down (used above the hero mascot) */
+.speech-bubble--down::before {
+  left: 50%;
+  top: auto;
+  bottom: -10px;
+  transform: translateX(-50%) rotate(-45deg);
+}
+
+
+/* 7. HERO ------------------------------------------------------------------ */
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(3rem, 7vw, 6rem) 0;
+  background:
+    radial-gradient(circle at 85% 20%, var(--sky-soft) 0, transparent 45%),
+    radial-gradient(circle at 10% 90%, var(--sky-softer) 0, transparent 40%),
+    var(--white);
+}
+
+.hero__inner {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  align-items: center;
+  gap: 3rem;
+}
+
+.hero__subtitle {
+  font-size: 1.25rem;
+  color: var(--text-muted);
+  max-width: 520px;
+  margin-bottom: 2rem;
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.hero__mascot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.75rem;
+}
+
+.hero__mascot-img {
+  width: min(280px, 70%);
+  filter: drop-shadow(0 24px 30px rgba(10, 58, 134, 0.18));
+}
+
+/* Smaller page hero used on About & Activities */
+.page-hero {
+  padding: clamp(3rem, 6vw, 5rem) 0 clamp(2rem, 4vw, 3rem);
+  text-align: center;
+  background:
+    radial-gradient(circle at 50% 0%, var(--sky-soft) 0, transparent 60%),
+    var(--white);
+}
+
+.page-hero p {
+  color: var(--text-muted);
+  font-size: 1.2rem;
+  max-width: 640px;
+  margin: 0 auto 2rem;
+}
+
+
+/* 8. CONTENT SECTIONS ------------------------------------------------------ */
+/* Introduction — first paragraph stands out */
+.intro .lead {
+  font-family: var(--font-heading);
+  font-size: clamp(1.3rem, 2.4vw, 1.6rem);
+  font-weight: 600;
+  color: var(--navy);
+  line-height: 1.45;
+}
+
+/* Quote panel */
+.quote {
+  position: relative;
+  max-width: 880px;
+  margin: 0 auto;
+  padding: clamp(2.5rem, 6vw, 4rem);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, var(--navy) 0%, var(--blue) 100%);
+  color: var(--white);
+  box-shadow: var(--shadow-lg);
+  text-align: center;
+  overflow: hidden;
+}
+
+/* Decorative large quote mark */
+.quote::before {
+  content: "\201C";
+  position: absolute;
+  top: -1.5rem;
+  left: 1.5rem;
+  font-family: Georgia, serif;
+  font-size: 11rem;
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.12);
+}
+
+.quote blockquote {
+  margin: 0;
+}
+
+.quote p {
+  position: relative;
+  font-family: var(--font-heading);
+  font-size: clamp(1.2rem, 2.4vw, 1.6rem);
+  font-weight: 500;
+  line-height: 1.55;
+  margin-bottom: 1.5rem;
+}
+
+.quote cite {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: #cfe9ff;
+}
+
+/* About page: goal cards */
+.goals {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.goal {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2rem;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.goal:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow);
+}
+
+.goal__icon {
+  width: 56px;
+  height: 56px;
+  display: grid;
+  place-items: center;
+  font-size: 1.7rem;
+  background: var(--sky-soft);
+  border-radius: var(--radius-sm);
+  margin-bottom: 1.25rem;
+}
+
+.goal p {
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* Two-column text + Spark block (About page) */
+.split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: center;
+}
+
+.split__visual {
+  display: flex;
+  justify-content: center;
+}
+
+.split__visual img {
+  width: min(240px, 60%);
+}
+
+
+/* 9. ACTIVITY CARDS -------------------------------------------------------- */
+/* Grid that holds all activity cards — add more cards and they flow in. */
+.activity-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Coloured top area of each card (holds an emoji/illustration) */
+.card__media {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 190px;
+  background: linear-gradient(160deg, #dff1ff 0%, #b9e1ff 100%);
+}
+
+.card__media img {
+  position: relative;
+  z-index: 1;          /* keeps Spark in front of the snow dots */
+  width: 110px;
+}
+
+/* Gentle snow dots for the Snowy Quest card */
+.card__media--snow::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle, #fff 2px, transparent 2.5px),
+    radial-gradient(circle, rgba(255,255,255,0.8) 1.5px, transparent 2px);
+  background-size: 38px 38px, 23px 23px;
+  background-position: 0 0, 11px 14px;
+  pointer-events: none;
+}
+
+.card__body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 1.75rem;
+}
+
+.card__body p {
+  color: var(--text-muted);
+  flex: 1;
+}
+
+/* Little tags, e.g. age range / topic */
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem;
+}
+
+.tag {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--navy);
+  background: var(--sky-soft);
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-pill);
+}
+
+/* Large featured card on the homepage (image left, text right) */
+.card--featured {
+  flex-direction: row;
+  max-width: 940px;
+  margin: 0 auto;
+}
+
+.card--featured .card__media {
+  flex: 0 0 40%;
+  min-height: 300px;
+}
+
+.card--featured .card__media img {
+  width: 150px;
+}
+
+.card--featured .card__body {
+  padding: clamp(2rem, 4vw, 3rem);
+  justify-content: center;
+}
+
+.card--featured .card__body p {
+  flex: 0;
+  margin-bottom: 1.75rem;
+}
+
+/* "Coming soon" placeholder cards */
+.card--placeholder {
+  border: 2px dashed var(--border);
+  box-shadow: none;
+  background: var(--sky-softer);
+}
+
+.card--placeholder:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.card--placeholder .card__media {
+  background: transparent;
+  min-height: 150px;
+  font-size: 3rem;
+  opacity: 0.8;
+}
+
+
+/* 10. FOOTER --------------------------------------------------------------- */
+.site-footer {
+  background: var(--navy);
+  color: #dbeaff;
+  padding: 3.5rem 0 2rem;
+  font-size: 1rem;
+}
+
+.footer__top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* Spark's footer speech bubble sits on the dark background */
+.site-footer .speech-bubble {
+  border-color: transparent;
+}
+
+.footer__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.footer__links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--white);
+  text-decoration: none;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, 0.08);
+  transition: background 0.2s ease;
+}
+
+.footer__links a:hover {
+  background: rgba(255, 255, 255, 0.18);
+  color: var(--white);
+}
+
+.footer__links svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
+
+.footer__bottom {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 1.5rem;
+  font-size: 0.95rem;
+}
+
+.footer__bottom a { color: var(--white); }
+
+
+/* 11. ANIMATIONS ----------------------------------------------------------- */
+/* Spark's gentle float — add class="float" to any element */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-12px); }
+}
+
+.float {
+  animation: float 4.5s ease-in-out infinite;
+}
+
+/* Smaller, slower float for little Spark icons */
+.float--small {
+  animation: float 5.5s ease-in-out infinite;
+  animation-name: float-small;
+}
+
+@keyframes float-small {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
+}
+
+/* Fade-in on scroll.
+   Add class="fade-in" to any element. script.js adds "is-visible"
+   when it scrolls into view. The .js class means content is never
+   hidden if JavaScript is turned off. */
+.js .fade-in {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.js .fade-in.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Respect users who prefer reduced motion (accessibility) */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  .js .fade-in { opacity: 1; transform: none; }
+}
+
+
+/* 12. RESPONSIVE ----------------------------------------------------------- */
+/* Tablet */
+@media (max-width: 960px) {
+  .hero__inner {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  .hero__subtitle { margin-left: auto; margin-right: auto; }
+  .hero__actions  { justify-content: center; }
+  .hero__mascot   { order: -1; }            /* Spark appears above headline */
+  .hero__mascot-img { width: 200px; }
+
+  /* Mission block: text first, smaller Spark below, text stays left-aligned */
+  .split { grid-template-columns: 1fr; gap: 2rem; }
+  .split__visual img { width: 150px; }
+}
+
+/* Mobile */
+@media (max-width: 720px) {
+  body { font-size: 1.0625rem; }
+
+  .nav__toggle { display: inline-flex; }
+
+  /* Mobile menu drops down below the header */
+  .nav__links {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 1rem 1.5rem 1.5rem;
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    box-shadow: var(--shadow);
+  }
+  .nav__links.is-open { display: flex; }
+  .nav__links a { padding: 0.85rem 1.1rem; }
+
+  .nav__logo img { height: 40px; }
+
+  .card--featured { flex-direction: column; }
+  .card--featured .card__media { min-height: 200px; }
+
+  .goals { grid-template-columns: 1fr; }
+
+  .spark-says { flex-direction: column; text-align: center; }
+  .spark-says .speech-bubble::before {
+    left: 50%;
+    top: -10px;
+    transform: translateX(-50%) rotate(135deg);
+  }
+
+  .footer__top,
+  .footer__bottom { flex-direction: column; align-items: flex-start; }
+}
+
+/* Keep a little space between a page heading and Spark's speech bubble */
+.page-hero .spark-says {
+  margin-top: 1.5rem;
+}
